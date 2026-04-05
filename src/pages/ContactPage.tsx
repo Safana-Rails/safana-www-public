@@ -240,7 +240,7 @@ export function ContactPage() {
                   <select
                     value={countryCode}
                     onChange={(e) => setCountryCode(e.target.value)}
-                    className={`${fieldClass()} w-28 shrink-0 px-2 cursor-pointer [&>option]:bg-[#1a1a1a]`}
+                    className={`${fieldClass()} !w-24 shrink-0 px-2 cursor-pointer [&>option]:bg-[#1a1a1a]`}
                     aria-label="Country code"
                     title="Country code"
                   >

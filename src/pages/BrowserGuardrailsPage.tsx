@@ -116,7 +116,7 @@ export function BrowserGuardrailsPage() {
               Real-time browser protection that keeps sensitive data out of untrusted AI; without slowing developers down.
             </p>
             {/* Video embed */}
-            <div className="mt-10 w-full max-w-2xl mx-auto aspect-video rounded-lg overflow-hidden border border-white/10 shadow-2xl">
+            <div className="mt-10 mb-10 w-full max-w-2xl mx-auto aspect-video rounded-lg overflow-hidden border border-white/10 shadow-2xl">
               <iframe
                 src="https://www.youtube.com/embed/fJq1li9jBIc"
                 title="Safana Rails Browser Guard"
