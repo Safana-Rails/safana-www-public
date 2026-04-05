@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import hummingLogo from '../../icons/humming8.png';
+import hummingLogo from '/icons/humming8.png';
 
 const PRODUCT_ITEMS: { label: string; to?: string }[] = [
   { label: 'Browser-based AI Guardrails', to: '/browser-guardrails' },
