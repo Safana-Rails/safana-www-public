@@ -6,13 +6,109 @@
   html,
   body {
     font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
-    background-color: #050505;
-    color: #fff;
+    background-color: #f8fafc;
+    color: #10233f;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Plus Jakarta Sans', Inter, ui-sans-serif, system-ui, sans-serif;
+    font-family: 'Space Grotesk', 'Plus Jakarta Sans', Inter, ui-sans-serif, system-ui, sans-serif;
     font-weight: 600;
   }
+}
+
+.hero-grid {
+  background-image: linear-gradient(rgba(23, 105, 209, .07) 1px, transparent 1px), linear-gradient(90deg, rgba(23, 105, 209, .07) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(to bottom, black, transparent 92%);
+}
+
+/* Bring legacy content pages into the Hatchmark light system without changing their structure. */
+.legacy-light {
+  background: #f8fafc;
+  color: #52657d;
+}
+
+.legacy-light [class*="bg-[#050505]"],
+.legacy-light [class*="bg-white/5"] {
+  background-color: #fff !important;
+}
+
+.legacy-light [class*="text-white"],
+.legacy-light [class*="text-[#e5e5e5]"] {
+  color: #10233f !important;
+}
+
+.legacy-light [class*="bg-[#10233f]"][class*="text-white"],
+.legacy-light header nav a:last-child {
+  color: #fff !important;
+}
+
+.legacy-light [class*="text-[#969696]"],
+.legacy-light [class*="text-[#666]"] {
+  color: #52657d !important;
+}
+
+.legacy-light [class*="border-white"] {
+  border-color: #dbe4ef !important;
+}
+
+.legacy-light [class*="bg-cover"] {
+  background-image: none !important;
+  background-color: #edf6ff !important;
+}
+
+.legacy-light [class*="bg-gradient"] {
+  background: none !important;
+  -webkit-text-fill-color: #1769d1 !important;
+  color: #1769d1 !important;
+}
+
+.legacy-light [class*="text-fuchsia"],
+.legacy-light [class*="text-cyan"],
+.legacy-light [class*="text-purple"],
+.legacy-light [class*="text-green"],
+.legacy-light [class*="text-orange"] {
+  color: #1769d1 !important;
+}
+
+.legacy-light [class*="border-fuchsia"],
+.legacy-light [class*="border-cyan"],
+.legacy-light [class*="border-purple"],
+.legacy-light [class*="border-green"],
+.legacy-light [class*="border-orange"],
+.legacy-light [class*="border-red"] {
+  border-color: #cbd8e8 !important;
+}
+
+.legacy-light [class*="bg-fuchsia"],
+.legacy-light [class*="bg-cyan"],
+.legacy-light [class*="bg-purple"],
+.legacy-light [class*="bg-green"],
+.legacy-light [class*="bg-orange"],
+.legacy-light [class*="bg-red"] {
+  background-color: #edf6ff !important;
+}
+
+.legacy-light input,
+.legacy-light textarea,
+.legacy-light select {
+  background-color: #fff !important;
+  border-color: #cbd8e8 !important;
+  color: #10233f !important;
+}
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(72px) scale(.985);
+  transition: opacity 800ms cubic-bezier(.2,.8,.2,1), transform 800ms cubic-bezier(.2,.8,.2,1);
+}
+
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal { opacity: 1; transform: none; transition: none; }
 }
 
 @keyframes fade-in-up {

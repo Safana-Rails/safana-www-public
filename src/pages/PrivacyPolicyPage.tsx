@@ -15,7 +15,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 export function PrivacyPolicyPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-[#050505]">
+    <div className="legacy-light flex min-h-screen flex-col bg-[#050505]">
       <Nav />
 
       <main id="main-content" className="flex flex-1 flex-col items-center px-6 py-16">
@@ -33,7 +33,7 @@ export function PrivacyPolicyPage() {
 
             <Section title="1. Introduction">
               <p>
-                Safana Rails (&ldquo;Company,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) operates a suite of AI guardrail tools and an associated website (collectively, the &ldquo;Service&rdquo;). This Privacy Policy describes how we collect, use, disclose, and safeguard information when you use our Service.
+                Hatchmark (&ldquo;Company,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) operates endpoint network security software and an associated website (collectively, the &ldquo;Service&rdquo;). This Privacy Policy describes how we collect, use, disclose, and safeguard information when you use our Service.
               </p>
               <p>
                 By accessing or using the Service, you agree to the collection and use of information in accordance with this policy. If you do not agree, please do not use the Service.
@@ -135,7 +135,7 @@ export function PrivacyPolicyPage() {
             <Section title="6. Data Sharing and Disclosure">
               <p>We do not sell, trade, or rent your personal information. We may disclose information in the following limited circumstances:</p>
               <ul className="mt-3 ml-4 space-y-2 list-disc list-outside">
-                <li><span className="text-[#e5e5e5]">Your organization administrator</span>;detection event logs are accessible to the administrator of your organization&rsquo;s Safana Rails account</li>
+                <li><span className="text-[#e5e5e5]">Your organization administrator</span>;connection and policy event logs are accessible to the administrator of your organization&rsquo;s Hatchmark account</li>
                 <li><span className="text-[#e5e5e5]">Service providers</span>;as described in Section 5, limited data is shared with third-party infrastructure providers necessary to operate the Service</li>
                 <li><span className="text-[#e5e5e5]">Legal requirements</span>;we may disclose information where required by law, court order, or regulatory authority</li>
                 <li><span className="text-[#e5e5e5]">Business transfers</span>;in the event of a merger, acquisition, or sale of assets, user data may be transferred to the successor entity, subject to equivalent privacy protections</li>
@@ -144,7 +144,7 @@ export function PrivacyPolicyPage() {
 
             <Section title="7. Data Retention">
               <p>
-                We retain detection event logs for as long as your organization maintains an active account with Safana Rails. Upon account termination, we will delete or anonymise your organisation&rsquo;s data within 90 days, unless a longer retention period is required by applicable law.
+                We retain connection and policy event logs for as long as your organization maintains an active account with Hatchmark. Upon account termination, we will delete or anonymise your organisation&rsquo;s data within 90 days, unless a longer retention period is required by applicable law.
               </p>
               <p>
                 You may request deletion of your personal data at any time by contacting us.

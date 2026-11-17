@@ -131,14 +131,14 @@ export function ContactPage() {
       if (!res.ok) throw new Error();
       setSubmitted(true);
     } catch {
-      setSubmitError('Something went wrong. Please try again or email us directly at info@safanarails.com.');
+      setSubmitError('Something went wrong. Please try again or email us directly at info@hatchmark.com.');
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#050505]">
+    <div className="legacy-light flex min-h-screen flex-col bg-[#050505]">
       <Nav />
 
       <main id="main-content" className="flex flex-1 flex-col items-center p-8">
@@ -308,7 +308,7 @@ export function ContactPage() {
                   className="mt-1 w-4 h-4 rounded border-white/30 bg-white/5 text-blue-400 focus:ring-2 focus:ring-blue-400/50 cursor-pointer"
                 />
                 <span className="text-sm text-[#969696] group-hover:text-[#b0b0b0] transition-colors">
-                  I agree to receive other communications from Safana Rails (updates, train puns, and the occasional meme; we'll keep it light 🚂).
+                  I agree to receive other communications from Hatchmark about product updates and network security.
                 </span>
               </label>
 

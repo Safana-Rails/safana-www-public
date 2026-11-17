@@ -22,7 +22,7 @@ function QA({ question, children }: { question: string; children: React.ReactNod
 
 export function AISecurityPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-[#050505]">
+    <div className="legacy-light flex min-h-screen flex-col bg-[#050505]">
       <Nav />
 
       <main id="main-content" className="flex flex-1 flex-col items-center px-6 py-16">
@@ -34,7 +34,7 @@ export function AISecurityPage() {
               AI Security
             </h1>
             <p className="text-[#969696] text-lg leading-relaxed">
-              At Safana Rails, we want to be transparent about how we use AI in our product and what that means for your data.
+              At Hatchmark, we want to be transparent about how we use AI in our product and what that means for your data.
             </p>
           </div>
 
@@ -42,19 +42,19 @@ export function AISecurityPage() {
 
             <Section title="How we use AI in our product">
               <p>
-                Safana Rails helps organisations stay secure when their teams use AI tools. Our core functionality (guardrails for AI usage) does not rely on AI. It works through deterministic pattern matching, running entirely within your browser.
+                Hatchmark helps organisations keep endpoint network access secure. Our core firewall functionality is policy-driven and does not rely on AI.
               </p>
               <p>
                 For a subset of more complex, context-dependent detections, we do use third-party AI services. Below we explain exactly where AI is and is not involved.
               </p>
 
-              <QA question="Is AI used for the core secret detection in Safana Rails?">
+              <QA question="Is AI used for core network policy enforcement in Hatchmark?">
                 <p>
                   No. The detection of credentials, API keys, tokens, and other structured secrets is performed locally within your browser using pattern matching. This process does not involve any AI model and no data is transmitted to external services to perform these detections.
                 </p>
               </QA>
 
-              <QA question="Where does Safana Rails use AI?">
+              <QA question="Where does Hatchmark use AI?">
                 <p>
                   AI is used for a specific category of detection that pattern matching alone cannot reliably perform: identifying sensitive <em>business context</em>. This includes unstructured references to:
                 </p>
@@ -81,9 +81,9 @@ export function AISecurityPage() {
                 We work with third-party AI providers to deliver context-aware detection capabilities. The security of your data is our primary concern, and we hold our providers to the same standards we apply internally.
               </p>
 
-              <QA question="Is Safana Rails customer data used to train or fine-tune any AI model?">
+              <QA question="Is Hatchmark customer data used to train or fine-tune any AI model?">
                 <p>
-                  No. Safana Rails customer data is not retained, processed, or used in any manner to train, fine-tune, or otherwise develop any AI model, whether operated by Safana Rails or a third-party provider. We have explicitly opted out of data use for training purposes with all AI service providers we work with.
+                  No. Hatchmark customer data is not used in any manner to train, fine-tune, or otherwise develop any AI model.
                 </p>
               </QA>
 
@@ -115,7 +115,7 @@ export function AISecurityPage() {
 
               <QA question="Are there data processing agreements in place with AI providers?">
                 <p>
-                  Yes. Each third-party AI provider we work with has an executed data processing agreement with Safana Rails. These agreements bind providers to security controls equivalent to or stricter than those we operate ourselves, including encryption in transit and at rest, access controls, and data retention limits.
+                  Any third-party provider used by Hatchmark is evaluated against our security and privacy requirements, including encryption, access controls, and data retention limits.
                 </p>
               </QA>
             </Section>
@@ -131,7 +131,7 @@ export function AISecurityPage() {
 
             <Section title="Questions?">
               <p>
-                To learn more about Safana Rails&rsquo; security controls, or to discuss your organisation&rsquo;s specific requirements, get in touch
+                To learn more about Hatchmark&rsquo;s security controls, or to discuss your organisation&rsquo;s specific requirements, get in touch
               </p>
             </Section>
 

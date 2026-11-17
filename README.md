@@ -1,6 +1,6 @@
 # 👋 Hello there
 
-You found the source code for [safana rails](#). Cool!
+You found the source code for [Hatchmark](#). Cool!
 
 Unfortunately, there's not much to see here; just the website. The actual magic happens elsewhere.
 

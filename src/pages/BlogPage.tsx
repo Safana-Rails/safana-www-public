@@ -9,7 +9,7 @@ function MermaidDiagram({ chart }: { chart: string }) {
     let cancelled = false;
     import('mermaid').then((m) => {
       if (cancelled || !ref.current) return;
-      m.default.initialize({ startOnLoad: false, theme: 'dark', themeVariables: { darkMode: true, background: '#0d0d0d', primaryColor: '#1e293b', primaryTextColor: '#e2e8f0', lineColor: '#475569', edgeLabelBackground: '#0d0d0d' } });
+      m.default.initialize({ startOnLoad: false, theme: 'base', themeVariables: { background: '#ffffff', primaryColor: '#edf6ff', primaryTextColor: '#10233f', lineColor: '#1769d1', edgeLabelBackground: '#ffffff' } });
       const id = `mermaid-${Math.random().toString(36).slice(2)}`;
       m.default.render(id, chart).then(({ svg }) => {
         if (!cancelled && ref.current) ref.current.innerHTML = svg;
@@ -117,7 +117,7 @@ const WHAT_TO_LOOK_FOR = [
 
 export function BlogPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-[#050505]">
+    <div className="legacy-light flex min-h-screen flex-col bg-[#050505]">
       <Nav />
 
       <main id="main-content" className="flex-1 flex flex-col items-center">
@@ -144,7 +144,7 @@ export function BlogPage() {
               </span>
             </h1>
             <p className="text-white/50 text-base mt-4 max-w-xl mx-auto leading-relaxed">
-              Perspectives from the team at Safana Rails.
+              Perspectives from the team at Hatchmark.
             </p>
           </div>
         </div>

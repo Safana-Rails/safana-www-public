@@ -1,345 +1,37 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Clock, Workflow, Brain } from 'lucide-react';
+import { useEffect } from 'react';
+import { ArrowRight, Check, Globe2, LockKeyhole, Network, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Nav } from '../components/Nav';
 import { Footer } from '../components/Footer';
-import { PurpleBar } from '../components/PurpleBar';
-import { AmbientAnimations } from '../components/AmbientAnimations';
-import { GraphLines } from '../components/GraphLines';
 
-const DURATION_MS = 2000;
-const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+const capabilities = [
+  ['Allow or block in one click.', 'Decide whether an application can reach a destination, then turn the decision into an enforceable policy.'],
+  ['Stop rogue AI connections.', 'Block unapproved desktop AI tools and restrict their access to sensitive endpoints.'],
+  ['Keep databases unreachable.', 'Deny sensitive services, such as PostgreSQL on port 5432, even when a laptop is connected to the VPN.'],
+];
+const rules = [
+  ['Slack', 'api.slack.com', 'Allow', 'allow'],
+  ['Claude', 'evil.attacker.com', 'Block', 'block'],
+  ['Cursor', 'crypto-miner.pool:3333', 'Block', 'block'],
+  ['Unknown process', 'exfil.store:443', 'Block', 'block'],
+];
 
 export function HomePage() {
-  const [count70, setCount70] = useState(0);
-  const [count300, setCount300] = useState(0);
-  const [sectionsInView, setSectionsInView] = useState({ goingFast: false, expectedOutcome: false, solutions: false, endSection: false });
-  const impactSectionRef = useRef<HTMLDivElement>(null);
-  const goingFastSectionRef = useRef<HTMLDivElement>(null);
-  const solutionsSectionRef = useRef<HTMLDivElement>(null);
-  const endSectionRef = useRef<HTMLElement>(null);
-  const hasAnimatedRef = useRef(false);
-
   useEffect(() => {
-    const el = impactSectionRef.current;
-    if (!el) return;
-
-    let rafId: number;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries[0].isIntersecting || hasAnimatedRef.current) return;
-        hasAnimatedRef.current = true;
-
-        const start = performance.now();
-        const tick = (now: number) => {
-          const elapsed = now - start;
-          const progress = Math.min(elapsed / DURATION_MS, 1);
-          const eased = easeOutCubic(progress);
-          setCount70(Math.round(70 * eased));
-          setCount300(Math.round(300 * eased));
-          if (progress < 1) {
-            rafId = requestAnimationFrame(tick);
-          }
-        };
-        rafId = requestAnimationFrame(tick);
-      },
-      { threshold: 0.05, rootMargin: '0px 0px -80px 0px' }
-    );
-    observer.observe(el);
-    return () => {
-      hasAnimatedRef.current = false;
-      observer.disconnect();
-      if (rafId != null) cancelAnimationFrame(rafId);
-    };
+    const observer = new IntersectionObserver((entries) => entries.forEach(({ isIntersecting, target }) => {
+      if (isIntersecting) { target.classList.add('is-visible'); observer.unobserve(target); }
+    }), { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll<HTMLElement>('.homepage-scroll .scroll-reveal:not(.is-visible)').forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    const refs = [
-      { ref: goingFastSectionRef, key: 'goingFast' as const },
-      { ref: impactSectionRef, key: 'expectedOutcome' as const },
-      { ref: solutionsSectionRef, key: 'solutions' as const },
-      { ref: endSectionRef, key: 'endSection' as const },
-    ];
-    const observers: IntersectionObserver[] = [];
-    refs.forEach(({ ref, key }) => {
-      const el = ref.current;
-      if (!el) return;
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting) {
-            setSectionsInView((prev) => ({ ...prev, [key]: true }));
-          }
-        },
-        { threshold: 0.08, rootMargin: '0px 0px -60px 0px' }
-      );
-      observer.observe(el);
-      observers.push(observer);
-    });
-    return () => observers.forEach((o) => o.disconnect());
-  }, []);
-
-  return (
-    <div className="flex min-h-screen flex-col bg-[#050505]">
-      <Nav />
-
-      <main id="main-content" className="flex-1 flex flex-col items-center p-8">
-        {/* Hero - Safana Rails animation area with background image */}
-        <div className="relative w-full min-h-[80vh] flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat overflow-hidden" style={{ backgroundImage: "url('/images/bk-trees.jpeg')" }}>
-          <div className="absolute inset-0 bg-[#050505]/65 pointer-events-none" aria-hidden />
-          <div className="text-center relative z-10 max-w-4xl mx-auto px-6">
-
-            {/* Title */}
-            <h1 className="font-heading text-7xl font-bold tracking-tight md:text-9xl mb-6 animate-fade-in-up animation-delay-1000">
-              <span className="bg-gradient-to-r from-blue-400 via-fuchsia-400 to-purple-800 bg-clip-text text-transparent animate-gradient-x">
-                Safana Rails
-              </span>
-            </h1>
-
-            {/* Colorful bar */}
-            <div className="w-48 h-1 bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 mx-auto mb-6 rounded-full animate-line-expand animation-delay-2000 animate-pulse"></div>
-
-            {/* Tagline */}
-            <p className="font-heading text-2xl md:text-3xl font-semibold text-white/80 mb-5 animate-fade-in-up animation-delay-1000">
-              Making it{' '}
-              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent animate-gradient-x">safe</span>
-              {' '}to go{' '}
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent animate-gradient-x">fast</span>
-            </p>
-
-            {/* Description */}
-            <p className="font-heading text-base text-white/55 font-light max-w-xl mx-auto mb-10 leading-relaxed animate-fade-in-up animation-delay-1000">
-              Real-time protection at the browser's last mile, enabling{' '}
-              <span className="font-medium bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent animate-gradient-x">safe AI</span> adoption and developer velocity.
-            </p>
-
-            {/* Feature items */}
-            <div className="flex flex-wrap items-center justify-center gap-4 animate-pop-in animation-delay-4000">
-              <div className="border-t border-blue-400/50 bg-blue-400/5 px-5 py-2.5 hover:bg-blue-400/10 transition-colors duration-300">
-                <div className="flex items-center gap-2">
-                  <Clock className="w-3.5 h-3.5 text-blue-400 shrink-0" />
-                  <span className="font-heading text-xs font-medium text-blue-300 tracking-wide">Real-Time Protection</span>
-                </div>
-              </div>
-              <div className="border-t border-fuchsia-400/50 bg-fuchsia-400/5 px-5 py-2.5 hover:bg-fuchsia-400/10 transition-colors duration-300">
-                <div className="flex items-center gap-2">
-                  <Workflow className="w-3.5 h-3.5 text-fuchsia-400 shrink-0" />
-                  <span className="font-heading text-xs font-medium text-fuchsia-300 tracking-wide">Native Threat Defense</span>
-                </div>
-              </div>
-              <div className="border-t border-cyan-400/50 bg-cyan-400/5 px-5 py-2.5 hover:bg-cyan-400/10 transition-colors duration-300">
-                <div className="flex items-center gap-2">
-                  <Brain className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                  <span className="font-heading text-xs font-medium text-cyan-300 tracking-wide">Identity-Aware</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <PurpleBar className="h-10" />
-
-        <div className="text-center w-full">
-          {/* Page Divider */}
-          <div className="w-full max-w-4xl mx-auto my-20">
-            <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-          </div>
-
-          {/* The Problem Section - Going Fast */}
-          <div
-            ref={goingFastSectionRef}
-            className={`relative w-full py-10 bg-cover bg-center bg-no-repeat overflow-hidden transition-all duration-700 ease-out ${
-              sectionsInView.goingFast ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
-            }`}
-            style={{ backgroundImage: "url('/images/bk-ice.jpeg')" }}
-          >
-            <div className="absolute inset-0 bg-[#050505]/80 pointer-events-none" aria-hidden />
-            <AmbientAnimations />
-            <div className="relative z-10 max-w-6xl mx-auto px-8">
-              {/* Problem Title */}
-              <div className="text-center mb-8">
-                <span className="inline-block font-mono text-xs font-semibold uppercase tracking-widest text-red-400/80 mb-4 border-t border-red-400/50 bg-red-400/5 px-5 py-2.5">
-                  The Challenge
-                </span>
-                <h2 className="font-heading font-bold mb-6">
-                  <div className="text-5xl md:text-7xl text-white mb-3 leading-tight">
-                    AI is Moving Fast,
-                  </div>
-                  <div className="text-4xl md:text-6xl leading-tight">
-                    <span className="bg-gradient-to-r from-red-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent" style={{ display: 'inline-block', paddingBottom: '0.15em' }}>
-                      So Are the Risks
-                    </span>
-                  </div>
-                </h2>
-                <p className="text-lg text-white/60 max-w-xl mx-auto mt-4 mb-6 leading-relaxed">
-                  The pressure to adopt AI quickly is real, but so are the security gaps it creates.
-                </p>
-              </div>
-
-              {/* Problem Cards - staircase */}
-              <div className="flex flex-col gap-4 max-w-4xl mx-auto">
-                {[
-                  { num: '01', title: 'Speed pressure', body: 'Adopt AI fast or risk falling behind competitors ready or not.' },
-                  { num: '02', title: 'Data exposure', body: 'Sensitive data silently leaking to LLMs and third-party training sets.' },
-                  { num: '03', title: 'Shadow AI', body: 'Employees already using unapproved tools outside IT visibility.' },
-                  { num: '04', title: 'Vendor chaos', body: "Every app claims to be 'AI-powered' with zero governance or oversight." },
-                ].map(({ num, title, body }, i) => (
-                  <div
-                    key={num}
-                    className="border-t-2 border-red-400/60 bg-white/5 px-5 py-3 hover:bg-white/10 transition-colors duration-300"
-                    style={{ marginLeft: `${i * 2}rem`, width: `calc(100% - ${i * 2}rem)` }}
-                  >
-                    <p className="font-mono text-xs uppercase tracking-widest text-red-400/70 mb-2" style={{ letterSpacing: '-0.04em' }}>{title}</p>
-                    <div className="text-white/60 text-sm leading-relaxed">{body}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Page Divider */}
-          <div className="w-full max-w-4xl mx-auto my-20">
-            <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-          </div>
-
-          {/* Expected Impact and Outcome Section */}
-          <div
-            ref={impactSectionRef}
-            className={`relative w-full py-20 bg-cover bg-center bg-no-repeat transition-all duration-700 ease-out ${
-              sectionsInView.expectedOutcome ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
-            }`}
-            style={{ backgroundImage: "url('/images/bk-penguin2.jpeg')" }}
-          >
-            <div className="absolute inset-0 bg-[#050505]/80 pointer-events-none" aria-hidden />
-            <GraphLines />
-              <div className="relative z-10 max-w-6xl mx-auto px-8">
-              {/* Impact Title */}
-              <div className="text-center mb-12">
-                <span className="inline-block font-mono text-xs font-semibold uppercase tracking-widest text-green-400/80 mb-4 border-t border-green-400/50 bg-green-400/5 px-5 py-2.5">
-                  Expected Outcomes
-                </span>
-                <h2 className="font-heading font-bold">
-                  <div className="text-5xl md:text-7xl text-white leading-tight">
-                    Real Results
-                  </div>
-                  <div className="text-4xl md:text-6xl leading-tight">
-                    <span className="bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent" style={{ display: 'inline-block', paddingBottom: '0.15em' }}>
-                      Measurable Impact
-                    </span>
-                  </div>
-                </h2>
-              </div>
-
-              {/* Impact Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto mb-12">
-                <div className="border-t-2 border-red-400/60 bg-white/5 p-8 hover:bg-white/10 transition-colors duration-300">
-                  <p className="font-mono text-xs uppercase tracking-widest text-red-400/70 mb-4" style={{ letterSpacing: '-0.04em' }}>Data Exposure</p>
-                  <div className="text-6xl md:text-7xl font-bold text-red-300 mb-3">{count70}%</div>
-                  <p className="text-white/60 text-sm leading-relaxed">Drop in sensitive data exposure across AI tools</p>
-                </div>
-                <div className="border-t-2 border-green-400/60 bg-white/5 p-8 hover:bg-white/10 transition-colors duration-300">
-                  <p className="font-mono text-xs uppercase tracking-widest text-green-400/70 mb-4" style={{ letterSpacing: '-0.04em' }}>AI Adoption</p>
-                  <div className="text-6xl md:text-7xl font-bold text-green-300 mb-3">{count300}%</div>
-                  <p className="text-white/60 text-sm leading-relaxed">Increase in AI tool adoption across the company</p>
-                </div>
-              </div>
-
-              {/* Bottom Text */}
-              <div className="text-center">
-                <p className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent animate-gradient-x" style={{ display: 'inline-block', paddingBottom: '0.1em' }}>
-                  Real-time guardrails, not roadblocks
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Page Divider */}
-        <div className="w-full max-w-4xl mx-auto my-20">
-          <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-        </div>
-
-        {/* Our Solutions section */}
-        <div
-          ref={solutionsSectionRef}
-          className={`relative w-full py-20 bg-cover bg-center bg-no-repeat transition-all duration-700 ease-out ${
-            sectionsInView.solutions ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
-          }`}
-          style={{ backgroundImage: "url('/images/bk-otter.jpeg')" }}
-        >
-          <div className="absolute inset-0 bg-[#050505]/80 pointer-events-none" aria-hidden />
-          <div className="relative z-10 max-w-6xl mx-auto px-8">
-            <div className="text-center mb-12">
-              <span className="inline-block font-mono text-xs font-semibold uppercase tracking-widest text-blue-400/80 mb-4 border-t border-blue-400/50 bg-blue-400/5 px-5 py-2.5">
-                Our Solutions
-              </span>
-              <h2 className="font-heading font-bold">
-                <div className="text-5xl md:text-6xl text-white leading-tight">
-                  Secure AI at Every Layer,
-                </div>
-                <div className="text-3xl md:text-4xl leading-tight mt-2">
-                  <span className="bg-gradient-to-r from-blue-400 via-fuchsia-400 to-cyan-400 bg-clip-text text-transparent animate-gradient-x" style={{ display: 'inline-block', paddingBottom: '0.15em' }}>
-                    from Browser to Endpoint to Infrastructure
-                  </span>
-                </div>
-              </h2>
-            </div>
-
-            <div className="flex flex-col gap-4 max-w-3xl mx-auto">
-              {[
-                {
-                  to: '/browser-guardrails',
-                  label: 'Browser-based AI Guardrails',
-                  body: 'Stop sensitive data before it reaches AI, directly in the browser',
-                  border: 'border-blue-400/60',
-                  tag: 'text-blue-400/70',
-                },
-                {
-                  to: '/laptop-firewall',
-                  label: 'Laptop-based Application & Network Firewall',
-                  body: 'Control which apps can connect out, from every managed device',
-                  border: 'border-fuchsia-400/60',
-                  tag: 'text-fuchsia-400/70',
-                },
-                {
-                  to: '/mcp-gateway',
-                  label: 'Centralized MCP Access Gateway',
-                  body: 'Standardize and govern MCP access across your organization',
-                  border: 'border-cyan-400/60',
-                  tag: 'text-cyan-400/70',
-                },
-              ].map(({ to, label, body, border, tag }, i) => (
-                <Link
-                  key={label}
-                  to={to}
-                  className={`block border-t-2 ${border} bg-white/5 px-5 py-4 hover:bg-white/10 transition-colors duration-300`}
-                  style={{ marginLeft: `${i * 2}rem`, width: `calc(100% - ${i * 2}rem)` }}
-                >
-                  <p className={`font-mono text-xs uppercase tracking-widest ${tag} mb-1`} style={{ letterSpacing: '-0.04em' }}>{label}</p>
-                  <p className="text-white/60 text-sm leading-relaxed">{body}</p>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Page Divider */}
-        <div className="w-full max-w-4xl mx-auto my-20">
-          <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-        </div>
-
-        {/* End section with background image */}
-        <section
-          ref={endSectionRef}
-          className={`relative w-full min-h-[60vh] bg-cover bg-center bg-no-repeat mt-20 transition-all duration-700 ease-out ${
-            sectionsInView.endSection ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
-          }`}
-          style={{ backgroundImage: "url('/images/bk-food.jpeg')" }}
-        >
-          <div className="absolute inset-0 bg-[#050505]/40 pointer-events-none" aria-hidden />
-        </section>
-      </main>
-      <PurpleBar />
-      <Footer />
-    </div>
-  );
+  return <div className="homepage-scroll min-h-screen overflow-hidden bg-[#f8fafc] text-[#10233f]"><Nav /><main id="main-content">
+    <section className="scroll-reveal is-visible relative isolate overflow-hidden border-b border-[#dbe4ef]"><div className="hero-grid absolute inset-0 -z-10" aria-hidden /><div className="absolute -right-28 top-20 -z-10 h-80 w-80 rounded-full bg-[#95dcff]/30 blur-3xl" aria-hidden />
+      <div className="mx-auto grid max-w-7xl gap-16 px-6 pb-20 pt-20 md:px-8 lg:grid-cols-[1.05fr_.95fr] lg:items-center lg:py-28"><div><p className="mb-6 font-mono text-xs font-bold uppercase tracking-[.22em] text-[#1976d2]">Enterprise network control</p><h1 className="max-w-3xl font-heading text-5xl font-semibold leading-[.98] tracking-[-.055em] text-[#10233f] md:text-7xl">Know every connection. <span className="text-[#1769d1]">Control every path.</span></h1><p className="mt-7 max-w-xl text-lg leading-8 text-[#52657d]">Hatchmark is the enterprise firewall and policy-enforced VPN for managed endpoints. Protect outbound traffic, govern application behavior, and keep sensitive private services unreachable from laptops.</p><div className="mt-9 flex flex-wrap gap-3"><Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-[#10233f] px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#10233f]/15 transition hover:bg-[#1769d1]">Talk to an expert <ArrowRight className="h-4 w-4" /></Link></div><div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm text-[#52657d]">{['macOS + Windows', 'Admin-managed policies', 'VPN access rules'].map((item) => <span key={item} className="flex items-center gap-2"><Check className="h-4 w-4 text-[#12a26a]" />{item}</span>)}</div></div>
+      <div className="rounded-2xl border border-[#d9e4f0] bg-white p-3 shadow-[0_28px_80px_-32px_rgba(31,69,117,.35)]"><div className="overflow-hidden rounded-xl border border-[#e2eaf3]"><div className="flex items-center justify-between border-b border-[#e2eaf3] bg-[#f8fbff] px-5 py-4"><div className="flex items-center gap-3"><span className="h-2.5 w-2.5 rounded-full bg-[#c73b2e]" /><span className="font-mono text-xs font-bold uppercase tracking-[.16em] text-[#52657d]">Hatchmark Console</span></div><span className="rounded-full bg-[#fff0ee] px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-[#c73b2e]">Threats blocked</span></div><div className="p-5"><div className="mb-5 flex items-end justify-between"><div><p className="font-mono text-[10px] font-bold uppercase tracking-[.16em] text-[#7a8ba0]">Protected endpoints</p><p className="mt-1 text-2xl font-semibold tracking-tight">12,480 endpoints</p></div><div className="text-right"><p className="text-2xl font-semibold text-[#c73b2e]">1337</p><p className="text-xs text-[#7a8ba0]">high-risk blocks</p></div></div><div className="space-y-2">{rules.map(([app, destination, action, type]) => <div key={app + destination} className="grid grid-cols-[1fr_1.25fr_auto] items-center gap-3 rounded-lg border border-[#e5edf5] px-3 py-3 text-xs"><span className="font-medium text-[#253d59]">{app}</span><span className="truncate font-mono text-[#73849a]">{destination}</span><span className={`rounded px-2 py-1 font-mono text-[10px] font-bold uppercase ${type === 'allow' ? 'bg-[#e6f7ef] text-[#08784c]' : 'bg-[#fff0ee] text-[#c73b2e]'}`}>{action}</span></div>)}</div><div className="mt-5 flex items-center gap-3 rounded-lg bg-[#fff0ee] px-4 py-3 text-xs text-[#9d3128]"><ShieldCheck className="h-5 w-5 shrink-0 text-[#c73b2e]" />Stopped suspected exfiltration and cryptomining traffic</div></div></div></div></div>
+    </section>
+    <section id="how-it-works" className="scroll-reveal mx-auto max-w-7xl px-6 py-24 md:px-8"><div className="max-w-2xl"><p className="font-mono text-xs font-bold uppercase tracking-[.22em] text-[#1976d2]">Built for the endpoint era</p><h2 className="mt-4 font-heading text-4xl font-semibold tracking-[-.04em] md:text-5xl">A firewall that follows your workforce.</h2><p className="mt-5 text-lg leading-8 text-[#52657d]">Your network perimeter is wherever work happens. Hatchmark enforces the same security policy on every managed device - at home, in the office, or on the road.</p></div><div className="mt-14 grid gap-5 md:grid-cols-3">{capabilities.map(([title, body], index) => { const Icon = [Network, ShieldCheck, LockKeyhole][index]; return <article key={title} className="rounded-xl border border-[#dce6f0] bg-white p-7 shadow-sm"><Icon className="h-6 w-6 text-[#1769d1]" /><p className="mt-10 font-mono text-xs font-bold text-[#7a8ba0]">0{index + 1}</p><h3 className="mt-3 text-xl font-semibold tracking-tight">{title}</h3><p className="mt-3 leading-7 text-[#5d7088]">{body}</p></article>})}</div><Link to="/laptop-firewall" className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-[#1769d1] hover:text-[#10233f]">Explore firewall architecture <ArrowRight className="h-4 w-4" /></Link></section>
+    <section className="scroll-reveal border-y border-[#dbe4ef] bg-white"><div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:px-8 lg:grid-cols-2 lg:items-center"><div><p className="font-mono text-xs font-bold uppercase tracking-[.22em] text-[#1976d2]">Clarity without compromise</p><h2 className="mt-4 font-heading text-4xl font-semibold tracking-[-.04em] md:text-5xl">Security teams get the signal, not the noise.</h2><p className="mt-5 max-w-xl text-lg leading-8 text-[#52657d]">Inspect live traffic by application, team, destination, country, and protocol. Investigate unusual behavior quickly, then turn the answer into a reusable rule.</p><ul className="mt-8 space-y-4 text-[#38516e]">{['Real-time connection visibility and audit history', 'Process and destination context for every decision', 'Rules scoped by app, domain, IP, port, protocol, and user group', 'Profiles for office, remote, and high-security environments'].map(item => <li key={item} className="flex gap-3"><span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#12a26a]" />{item}</li>)}</ul></div><div className="rounded-2xl bg-[#10233f] p-7 text-white shadow-xl"><div className="flex items-center justify-between border-b border-white/15 pb-5"><span className="font-mono text-xs uppercase tracking-[.18em] text-[#a8c9ed]">Network activity</span><Globe2 className="h-5 w-5 text-[#6fc9ff]" /></div><div className="space-y-5 pt-6">{['Salesforce ↔ 13.107.6.175','VS Code → registry.npmjs.org','Backup client → storage.company.internal'].map((item, i) => <div key={item}><div className="mb-2 flex justify-between font-mono text-xs text-[#dcecff]"><span>{item}</span><span>{[42, 78, 56][i]} MB</span></div><div className="h-1.5 rounded bg-white/10"><div className="h-full rounded bg-[#6fc9ff]" style={{ width: `${[42, 78, 56][i]}%` }} /></div></div>)}</div><div className="mt-8 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-[#b9d5ed]">One interface for endpoint firewall, policy, and private access.</div></div></div></section>
+    <section className="scroll-reveal mx-auto max-w-7xl px-6 py-24 text-center md:px-8"><p className="font-mono text-xs font-bold uppercase tracking-[.22em] text-[#1976d2]">Deployment at enterprise scale</p><h2 className="mx-auto mt-4 max-w-3xl font-heading text-4xl font-semibold tracking-[-.04em] md:text-5xl">Policies your people never have to think about.</h2><p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#52657d]">Deploy with your existing device management, define guardrails in the admin console, and give security teams evidence they can act on.</p><Link to="/contact" className="mt-9 inline-flex items-center gap-2 rounded-full bg-[#1769d1] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#10233f]">Build a safer network <ArrowRight className="h-4 w-4" /></Link></section>
+  </main><Footer /></div>;
 }

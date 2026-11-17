@@ -48,7 +48,7 @@ const BELIEFS = [
 
 export function CompanyPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-[#050505]">
+    <div className="legacy-light flex min-h-screen flex-col bg-[#050505]">
       <Nav />
 
       <main id="main-content" className="flex-1 flex flex-col items-center">
@@ -75,7 +75,7 @@ export function CompanyPage() {
               Solving Real Problems.
             </p>
             <p className="text-lg text-white/60 max-w-2xl mx-auto leading-relaxed mb-10">
-              Safana Rails was founded by three security engineers who kept running into the same issue: the way people work has changed, but security hasn't kept up.
+              Hatchmark was founded by security engineers who kept running into the same issue: the way people work has changed, but security hasn't kept up.
             </p>
             <Link
               to="/contact"

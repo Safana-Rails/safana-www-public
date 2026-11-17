@@ -102,7 +102,7 @@ const AUDIENCE = [
 
 export function LaptopFirewallPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-[#050505]">
+    <div className="legacy-light flex min-h-screen flex-col bg-[#050505]">
       <Nav />
 
       <main id="main-content" className="flex-1 flex flex-col items-center">
@@ -282,6 +282,31 @@ export function LaptopFirewallPage() {
                 </p>
               </div>
               
+            </div>
+          </FadeSection>
+
+          {/* Privacy and process integrity */}
+          <FadeSection>
+            <div className="grid gap-8 rounded-2xl border border-[#dbe4ef] bg-white p-8 md:grid-cols-2 md:p-10">
+              <div>
+                <span className="font-mono text-xs font-bold uppercase tracking-[.18em] text-[#1769d1]">Built-in DNS encryption</span>
+                <h2 className="mt-4 font-heading text-3xl font-bold text-[#10233f]">Keep browsing activity private and secure.</h2>
+                <p className="mt-4 leading-7 text-[#52657d]">DNS requests can reveal the websites a device visits. Hatchmark encrypts DNS requests and supports trusted resolvers, so browsing activity is protected in transit.</p>
+                <p className="mt-4 text-sm font-medium text-[#25415f]">Encrypted DNS support: DoH, DoT, and DoQ.</p>
+              </div>
+              <div className="border-t border-[#dbe4ef] pt-8 md:border-l md:border-t-0 md:pl-8 md:pt-0">
+                <span className="font-mono text-xs font-bold uppercase tracking-[.18em] text-[#1769d1]">Identifier-based rules</span>
+                <h3 className="mt-4 font-heading text-2xl font-bold text-[#10233f]">Cryptographic process identification</h3>
+                <p className="mt-4 leading-7 text-[#52657d]">Processes are identified by their cryptographic code signature rather than a file path. Rules remain resilient when an application is moved, renamed, or updated.</p>
+              </div>
+            </div>
+          </FadeSection>
+
+          <FadeSection>
+            <div className="rounded-2xl border border-[#dbe4ef] bg-[#edf6ff] p-8 md:p-10">
+              <span className="font-mono text-xs font-bold uppercase tracking-[.18em] text-[#1769d1]">Policy-enforced VPN access</span>
+              <h2 className="mt-4 font-heading text-3xl font-bold text-[#10233f]">Private access does not mean unrestricted access.</h2>
+              <p className="mt-4 max-w-3xl leading-7 text-[#52657d]">Create VPN rules that allow only the applications, users, and network services a laptop needs. For example, deny PostgreSQL traffic on port 5432 to production databases. The database stays unreachable from the laptop, even while the user is connected to the VPN.</p>
             </div>
           </FadeSection>
 
